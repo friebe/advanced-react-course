@@ -21,7 +21,7 @@ const Logo = styled.div`
   margin-left: 2rem;
   position: relative;
   z-index: 2;
-  transform: skew(-7deg);
+  transform: skew(-10deg);
   a {
     padding: 0.5rem 1rem;
     background: ${props => props.theme.red};
@@ -37,7 +37,7 @@ const Logo = styled.div`
 
 const StyledHeader = styled.header`
   .bar {
-    border-bottom: 10px solid ${props => props.theme.black};
+    border-bottom: 7px solid ${props => props.theme.black};
     display: grid;
     grid-template-columns: auto 1fr;
     justify-content: space-between;
@@ -50,7 +50,7 @@ const StyledHeader = styled.header`
   .sub-bar {
     display: grid;
     grid-template-columns: 1fr auto;
-    border-bottom: 1px solid ${props => props.theme.lightgrey};
+    border-bottom: 2px solid ${props => props.theme.lightgrey};
   }
 `;
 
