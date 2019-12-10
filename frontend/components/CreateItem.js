@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Mutation } from "react-apollo";
 import Form from "./styles/Form";
 import Error from "./ErrorMessage";
+import { cloudinary } from "../variables";
 import formatMoney from "../lib/formatMoney";
 import gql from "graphql-tag";
 import Router from "next/router";
@@ -37,8 +38,30 @@ export default class CreateItem extends Component {
 
   handleChange = e => {
     const { name, type, value } = e.target;
+    //coerce string into floatingnumber because all inputs from input is a string type
     const val = type === "number" ? parseFloat(value) : value;
     this.setState({ [name]: val });
+  };
+
+  uploadFile = async e => {
+    const files = e.target.files;
+    console.log(files[0]);
+    const data = new FormData();
+    data.append("file", files[0]);
+    data.append("upload_preset", "sickfits");
+
+    console.log(cloudinary);
+
+    const res = await fetch(cloudinary, {
+      method: "POST",
+      body: data
+    });
+
+    const file = await res.json();
+    this.setState({
+      image: file.secure_url,
+      largeImage: file.eager[0].secure_url
+    });
   };
 
   render() {
@@ -88,24 +111,17 @@ export default class CreateItem extends Component {
               <label htmlFor="image">
                 Image
                 <input
-                  name="image"
+                  name="file"
                   type="file"
                   placeholder="image"
-                  value={this.state.image}
-                  onChange={this.handleChange}
+                  //value={this.state.image}
+                  onChange={this.uploadFile}
                 ></input>
               </label>
 
-              <label htmlFor="largeImage">
-                Large Image
-                <input
-                  name="largeImage"
-                  type="file"
-                  placeholder="largeImage"
-                  value={this.state.largeImage}
-                  onChange={this.handleChange}
-                ></input>
-              </label>
+              {this.state.image && (
+                <img src={this.state.image} alt="preview image" />
+              )}
 
               <label htmlFor="price">
                 Price
@@ -127,4 +143,4 @@ export default class CreateItem extends Component {
   }
 }
 
-//export { CREATE_ITEM_MUTATION };
+export { CREATE_ITEM_MUTATION };

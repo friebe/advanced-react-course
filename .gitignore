@@ -2,3 +2,4 @@ frontend/.next
 frontend/node_modules
 *.env
 backend/node_modules
+frontend/variables.js
